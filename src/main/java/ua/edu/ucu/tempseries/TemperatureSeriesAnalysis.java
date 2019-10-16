@@ -33,7 +33,6 @@ public class TemperatureSeriesAnalysis {
             aver += temperSeries[i];
         }
         aver = aver / temperSeries.length;
-//        this.avgTemp = aver;
         return aver;
 
     }
@@ -123,24 +122,32 @@ public class TemperatureSeriesAnalysis {
         return greater_arr;
     }
 
-    public TempSummaryStatistics summaryStatistics() {
+    public TempSummaryStatistics summaryStatistics(double average,
+                                                   double deviation,
+                                                   double min,
+                                                   double max) {
         return new TempSummaryStatistics(this.average(), this.deviation(), this.min(), this.max());
         }
 
-    public int addTemps(double... temps) {
-            for(double value: temps){
-                if (value < -273){
-                    throw new InputMismatchException();
+    public double addTemps(double... temps) {
+        for(double value: temps){
+            if (value < -273){
+                throw new InputMismatchException();
             }
-                if(capacity == size){
-                    double[] new_arr = new double[capacity * 2];
-                    System.arraycopy(temperSeries, 0, new_arr, 0, size);
-                    temperSeries = new_arr;
-                    capacity *= 2;
-                    temperSeries[size] = value;
-                    size++;
-                }
+            if(capacity == size){
+                double[] new_arr = new double[capacity * 2];
+                System.arraycopy(temperSeries, 0, new_arr, 0, size);
+                temperSeries = new_arr;
+                capacity *= 2;
+                temperSeries[size] = value;
+                size++;
+            }
         }
-        return size;
+
+        double sum_temp = 0.0;
+        for(int i = 0; i < temperSeries.length; i++) {
+            sum_temp += temperSeries[i];
+        }
+        return sum_temp;
     }
 }

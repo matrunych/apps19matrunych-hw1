@@ -1,5 +1,5 @@
 package ua.edu.ucu.tempseries;
-
+import java.util.Arrays;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,7 +12,7 @@ public class TemperatureSeriesAnalysisTest {
     @Before
     public void setUp() throws Exception {
         temperatureSeries = new double[]{3.0, -5.0, 1.0, -1.0, 5.0};
-        seriesAn = new TemperatureSeriesAnalysis(temperatureSeries);
+        seriesAn = new TemperatureSeriesAnalysis(Arrays.copyOf(temperatureSeries, temperatureSeries.length));
     }
 
     @Test
@@ -144,16 +144,20 @@ public class TemperatureSeriesAnalysisTest {
     }
 
     @Test
-    public void testSummaryStatistics() {
+    public void TestSummaryStatistics() {
+        TemperatureSeriesAnalysis ser = seriesAn;
+        TempSummaryStatistics st = seriesAn.summaryStatistics(seriesAn.average(), seriesAn.deviation(), seriesAn.min(), seriesAn.max());
+        assertArrayEquals(new double[]{0.6, 3.4409, 5.0, -5.0}, new double[]{st.getAvgTemp(), st.getDevTemp(), st.getMaxTemp(), st.getMinTemp()}, 0.01);
     }
 
     @Test
     public void testAddTemps() {
-        assertEquals(seriesAn.addTemps(6.0, -16.3), 5);
+        assertEquals(seriesAn.addTemps(6.0, -16.3), 3.0, 0.01);
     }
 
     @Test(expected = InputMismatchException.class)
     public void testAddTempsWrongTemperature() {
-        assertEquals(seriesAn.addTemps(6.0, -288.3), 5);
+        seriesAn.addTemps(6.0, -288.3);
+
     }
 }

@@ -5,10 +5,6 @@ import java.util.InputMismatchException;
 public class TemperatureSeriesAnalysis {
 
     private double[] temperSeries;
-//    private double avgTemp;
-//    private double devTemp;
-//    private double minTemp;
-//    private double maxTemp;
     int capacity;
     int size;
 
@@ -22,15 +18,16 @@ public class TemperatureSeriesAnalysis {
                 throw new InputMismatchException();
             }
         }
+        if (temperatureSeries.length == 0){
+            throw new IllegalArgumentException("Temperature series can't be empty!");
+        }
+
         this.temperSeries = Arrays.copyOf(temperatureSeries, temperatureSeries.length);
         this.size = temperatureSeries.length;
         this.capacity = size * 2;
     }
 
     public double average() {
-        if (temperSeries.length == 0){
-            throw new IllegalArgumentException("Temperature series can't be empty!");
-        }
         double aver = 0.0;
         for (int i = 0; i < temperSeries.length; i++){
             aver += temperSeries[i];
@@ -42,9 +39,6 @@ public class TemperatureSeriesAnalysis {
     }
 
     public double deviation() {
-        if (temperSeries.length == 0) {
-            throw new IllegalArgumentException("Temperature series can't be empty!");
-        }
         double dev = 0.0;
         for(int i = 0; i < temperSeries.length; i++) {
             dev += Math.pow(temperSeries[i] - average(), 2.0);
@@ -55,30 +49,22 @@ public class TemperatureSeriesAnalysis {
     }
 
     public double min() {
-        if (temperSeries.length == 0) {
-            throw new IllegalArgumentException("Temperature series can't be empty!");
-        }
         double min_temp = temperSeries[0];
         for(int i = 0; i < temperSeries.length; i++){
             if (temperSeries[i] < min_temp){
                 min_temp = temperSeries[i];
             }
         }
-//        this.minTemp = min_temp;
         return min_temp;
     }
 
     public double max() {
-        if (temperSeries.length == 0) {
-            throw new IllegalArgumentException("Temperature series can't be empty!");
-        }
         double max_temp = temperSeries[0];
         for(int i = 0; i < temperSeries.length; i++){
             if (temperSeries[i] > max_temp){
                 max_temp = temperSeries[i];
             }
         }
-//        this.maxTemp = max_temp;
         return max_temp;
     }
 
@@ -87,9 +73,6 @@ public class TemperatureSeriesAnalysis {
     }
 
     public double findTempClosestToValue(double tempValue) {
-        if (temperSeries.length == 0) {
-            throw new IllegalArgumentException("Temperature series can't be empty!");
-        }
         double difference = Math.abs(temperSeries[0] - tempValue);
         int idx = 0;
         for(int i = 0; i < temperSeries.length; i++) {
@@ -105,9 +88,6 @@ public class TemperatureSeriesAnalysis {
     }
 
     public double[] findTempsLessThen(double tempValue) {
-        if (temperSeries.length == 0) {
-            throw new IllegalArgumentException("Temperature series can't be empty!");
-        }
         int s = 0;
         for(int i = 0; i < temperSeries.length; i++){
             if(temperSeries[i] < tempValue){
@@ -126,9 +106,6 @@ public class TemperatureSeriesAnalysis {
     }
 
     public double[] findTempsGreaterThen(double tempValue) {
-        if (temperSeries.length == 0) {
-            throw new IllegalArgumentException("Temperature series can't be empty!");
-        }
         int s = 0;
         for(int i = 0; i < temperSeries.length; i++){
             if(temperSeries[i] >= tempValue){
@@ -147,9 +124,6 @@ public class TemperatureSeriesAnalysis {
     }
 
     public TempSummaryStatistics summaryStatistics() {
-        if (temperSeries.length == 0) {
-            throw new IllegalArgumentException("Temperature series can't be empty!");
-        }
         return new TempSummaryStatistics(this.average(), this.deviation(), this.min(), this.max());
         }
 

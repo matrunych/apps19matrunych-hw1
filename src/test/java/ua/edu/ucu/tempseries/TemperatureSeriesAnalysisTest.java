@@ -3,6 +3,7 @@ package ua.edu.ucu.tempseries;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
+import java.util.InputMismatchException;
 import org.junit.Ignore;
 
 public class TemperatureSeriesAnalysisTest {
@@ -38,6 +39,14 @@ public class TemperatureSeriesAnalysisTest {
         seriesAnalysis.average();
     }
 
+    @Test(expected = InputMismatchException.class)
+    public void testAverageWithWrongTemperature() {
+        double[] temperatureSeries = {3.0, -5.0, 1.0, -274.0};
+        TemperatureSeriesAnalysis seriesAnalysis = new TemperatureSeriesAnalysis(temperatureSeries);
+
+        // expect exception here
+        seriesAnalysis.average();
+    }
 
     @Test
     public void testAverage() {
@@ -48,6 +57,15 @@ public class TemperatureSeriesAnalysisTest {
         double actualResult = seriesAnalysis.average();
         
         assertEquals(expResult, actualResult, 0.00001);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testMinWithEmptyArray() {
+        double[] temperatureSeries = {};
+        TemperatureSeriesAnalysis seriesAnalysis = new TemperatureSeriesAnalysis(temperatureSeries);
+
+        // expect exception here
+        seriesAnalysis.min();
     }
 
 
@@ -132,5 +150,10 @@ public class TemperatureSeriesAnalysisTest {
     @Test
     public void testAddTemps() {
         assertEquals(seriesAn.addTemps(6.0, -16.3), 5);
+    }
+
+    @Test(expected = InputMismatchException.class)
+    public void testAddTempsWrongTemperature() {
+        assertEquals(seriesAn.addTemps(6.0, -288.3), 5);
     }
 }

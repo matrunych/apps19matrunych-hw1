@@ -131,25 +131,24 @@ public class TemperatureSeriesAnalysis {
         return new TempSummaryStatistics(this.average(), this.deviation(), this.min(), this.max());
     }
 
-    public double addTemps(double... temps) {
-        for (double value : temps) {
-            if (value < -273) {
+    public int addTemps(double... temps) {
+        double[] newArr = new double[temperSeries.length * 2];
+        int sum = 0;
+        int i = 0;
+        for (double temp : temperSeries) {
+            newArr[i] = temp;
+            sum += temp;
+            i++;
+        }
+        for (double t : temps) {
+            if (t < -273.0) {
                 throw new InputMismatchException();
             }
-            if (capacity == size) {
-                double[] new_arr = new double[capacity * 2];
-                System.arraycopy(temperSeries, 0, new_arr, 0, size);
-                temperSeries = new_arr;
-                capacity *= 2;
-                temperSeries[size] = value;
-                size++;
-            }
+            newArr[i] = t;
+            sum += t;
+            i++;
         }
-
-        double sum_temp = 0.0;
-        for (int i = 0; i < temperSeries.length; i++) {
-            sum_temp += temperSeries[i];
-        }
-        return sum_temp;
+        this.temperSeries = newArr;
+        return sum;
     }
 }

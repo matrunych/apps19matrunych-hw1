@@ -9,9 +9,9 @@ public class TemperatureSeriesAnalysis {
     int capacity;
     int size;
 
-//     public TemperatureSeriesAnalysis() {
+    public TemperatureSeriesAnalysis() {
 
-//     }
+    }
 
     public TemperatureSeriesAnalysis(double[] temperatureSeries) {
         for (int i = 0; i < temperatureSeries.length; i++) {

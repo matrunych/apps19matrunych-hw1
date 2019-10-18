@@ -158,7 +158,14 @@ public class TemperatureSeriesAnalysisTest {
 
     @Test
     public void testAddTemps() {
-        assertEquals(seriesAn.addTemps(6.0, -16.3), 3.0, 0.01);
+        double[] temperatureSeries = {3.0, -5.0, 1.0, 5.0, -1.0};
+        TemperatureSeriesAnalysis test = new TemperatureSeriesAnalysis(temperatureSeries);
+        double expResult = 5.0;
+
+        double actualResult = test.addTemps(4.0, -2.0);
+
+        assertEquals(expResult, actualResult, 0.00001);
+
     }
 
     @Test(expected = InputMismatchException.class)
@@ -166,14 +173,16 @@ public class TemperatureSeriesAnalysisTest {
         seriesAn.addTemps(6.0, -288.3);
 
     }
+
     @Test
     public void testAddTempsWithOneElementArray() {
         double[] temperatureSeries = {-1.0};
         TemperatureSeriesAnalysis test = new TemperatureSeriesAnalysis(temperatureSeries);
-        double expResult = -1.0;
+        double expResult = 0.0;
 
         double actualResult = test.addTemps(1.0);
 
         assertEquals(expResult, actualResult, 0.00001);
     }
+
 }

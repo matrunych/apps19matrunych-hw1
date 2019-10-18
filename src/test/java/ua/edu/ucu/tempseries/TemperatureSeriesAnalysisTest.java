@@ -166,4 +166,14 @@ public class TemperatureSeriesAnalysisTest {
         seriesAn.addTemps(6.0, -288.3);
 
     }
+    @Test
+    public void testAddTempsWithOneElementArray() {
+        double[] temperatureSeries = {-1.0};
+        TemperatureSeriesAnalysis test = new TemperatureSeriesAnalysis(temperatureSeries);
+        double expResult = -1.0;
+
+        double actualResult = test.addTemps(1.0);
+
+        assertEquals(expResult, actualResult, 0.00001);
+    }
 }
